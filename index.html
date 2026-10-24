@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerSphere - Your Career. Your Opportunities. Your Future.</title>
+  <meta name="description" content="CareerSphere is a unified career platform for students and freshers bringing corporate jobs, government exams, internships, preparation tracks, and career tools into one place." />
+  <meta name="theme-color" content="#0B0C10" />
+
+  <!-- Google Fonts: Cinzel (Royal Display) & Inter (Legible Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css?v=2.0.2" />
+  <link rel="stylesheet" href="css/components.css?v=2.0.2" />
+  <link rel="stylesheet" href="css/responsive.css?v=2.0.2" />
+</head>
+<body>
+  <!-- Ambient Dark Realm Background Atmosphere & Falling Snow (Non-interactive) -->
+  <div class="realm-atmosphere" aria-hidden="true"></div>
+  <canvas id="realm-snow-canvas" class="realm-snow-canvas" aria-hidden="true"></canvas>
+
+  <!-- CINEMATIC DRAGON FLY-THROUGH INTRO OVERLAY -->
+  <div id="realm-intro-overlay" class="realm-intro-overlay" aria-hidden="true" style="display: none;">
+    <div class="intro-backdrop"></div>
+    <div class="intro-fog-layer" aria-hidden="true"></div>
+    <div class="intro-dragon-silhouette" aria-hidden="true">
+      <svg width="260" height="150" viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M130 75 C150 62, 175 60, 202 52 C215 48, 228 49, 240 44 C234 52, 221 56, 208 60 C188 65, 168 73, 149 78 C130 83, 110 94, 91 110 C78 121, 65 137, 54 147 C59 135, 67 122, 78 112 C91 100, 110 87, 130 75 Z" fill="#0A0C11"/>
+        <path class="dragon-wing-anim-left" d="M149 75 C162 43, 182 18, 214 2 C195 22, 182 40, 169 60 C184 47, 201 37, 223 27 C201 45, 184 62, 171 72 C158 74, 153 75, 149 75 Z" fill="#11141C"/>
+        <path class="dragon-wing-anim-right" d="M123 78 C104 40, 78 15, 45 2 C67 22, 84 40, 97 60 C80 47, 62 37, 36 27 C62 45, 80 62, 96 72 C110 75, 117 76, 123 78 Z" fill="#0D1017"/>
+        <circle cx="238" cy="45" r="2" fill="#F59E0B" />
+      </svg>
+    </div>
+    <div class="intro-title-reveal" aria-hidden="true">
+      <span class="intro-realm-tag">⚔️ ENTER THE REALM OF OPPORTUNITIES</span>
+      <h1 class="intro-realm-title">CAREER SPHERE</h1>
+      <p class="intro-realm-desc">Where Legends Forge Their Destiny</p>
+    </div>
+    <button id="intro-skip-btn" class="intro-skip-btn" aria-label="Skip Cinematic Intro">Skip Intro ⏭</button>
+  </div>
+
+  <!-- CINEMATIC PAGE TRANSITION OVERLAY (POINTER-EVENTS NONE) -->
+  <div id="realm-transition-overlay" class="realm-transition-overlay" aria-hidden="true">
+    <div class="transition-effect-container"></div>
+  </div>
+
+  <div class="app-wrapper">
+    <!-- NAVIGATION BAR -->
+    <header class="main-navbar">
+      <div class="navbar-inner">
+        <!-- Brand Logo & Tagline -->
+        <a href="#home" class="brand-link" data-route="home">
+          <div class="brand-icon royal-sigil-icon" title="CareerSphere Royal Realm">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L15 5H9L12 2Z" fill="#D4AF37" stroke="#D4AF37" />
+              <path d="M4 8C7 7 10 9 12 12C14 9 17 7 20 8C19 12 16 15 12 21C8 15 5 12 4 8Z" fill="rgba(212, 175, 55, 0.2)" stroke="#D4AF37" />
+              <path d="M9 13C10 11 11 10 12 10C13 10 14 11 15 13" stroke="#D4AF37" />
+              <circle cx="12" cy="7" r="1.5" fill="#D4AF37" />
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Career<span>Sphere</span></span>
+            <span class="brand-tagline-nav">Enter Your Career Realm</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="desktop-nav" aria-label="Main Navigation">
+          <ul class="nav-links-menu">
+            <li><a href="#home" class="nav-link active" data-route="home">Home</a></li>
+            <li><a href="#corporate" class="nav-link" data-route="corporate">Corporate Jobs</a></li>
+            <li><a href="#internships" class="nav-link" data-route="internships">Internships</a></li>
+            <li><a href="#government" class="nav-link" data-route="government">Government Jobs</a></li>
+            <li><a href="#eligibility" class="nav-link" data-route="eligibility">My Eligibility</a></li>
+            <li><a href="#resume" class="nav-link" data-route="resume">Resume</a></li>
+            <li>
+              <a href="#saved" class="nav-link" data-route="saved">
+                Saved
+                <span class="saved-badge-counter">2</span>
+              </a>
+            </li>
+            <li><a href="#profile" class="nav-link" data-route="profile">Profile</a></li>
+          </ul>
+        </nav>
+
+        <!-- Right Side Nav Actions: Search, Notifications Bell, Profile & Mobile Hamburger -->
+        <div class="nav-actions">
+          <!-- Global Search Trigger -->
+          <button class="btn-search-trigger trigger-global-search" aria-label="Open Global Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span>Search</span>
+            <span class="search-shortcut-badge">Ctrl K</span>
+          </button>
+
+          <!-- Notification Bell Icon Trigger & Dropdown -->
+          <div class="nav-bell-wrapper" id="nav-bell-wrapper">
+            <button id="nav-bell-btn" class="nav-icon-btn btn-bell-trigger" title="Notifications" aria-label="Notifications" aria-expanded="false" aria-haspopup="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span class="bell-badge notification-badge-counter">4</span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div id="notification-dropdown" class="notification-dropdown" data-overlay="dropdown" role="menu" aria-label="Recent notifications" aria-hidden="true">
+              <div class="dropdown-header">
+                <div class="dropdown-header-left">
+                  <span class="dropdown-title">🔔 Notifications</span>
+                  <span class="dropdown-unread-tag" id="dropdown-unread-tag">4 New</span>
+                </div>
+                <button class="dropdown-mark-all-btn" id="dropdown-mark-all-btn" title="Mark all notifications as read">
+                  Mark all read
+                </button>
+              </div>
+
+              <div class="dropdown-body" id="dropdown-notifs-list">
+                <!-- Injected dynamically by app.js: latest 3-5 notifications -->
+              </div>
+
+              <div class="dropdown-footer">
+                <button class="btn-dropdown-view-all" id="dropdown-view-all-btn">
+                  View All Notifications &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Authentication Button / User Profile Menu -->
+          <div class="nav-auth-wrapper" id="nav-auth-wrapper">
+            <!-- Unauthenticated: Sign In Button -->
+            <button id="btn-auth-open" class="btn-realm-auth" aria-label="Sign In or Register">
+              <span class="auth-icon">⚔️</span>
+              <span class="auth-label">Enter Realm</span>
+            </button>
+
+            <!-- Authenticated: User Avatar Dropdown -->
+            <div id="nav-user-menu" class="nav-user-menu" style="display: none;">
+              <button id="nav-user-btn" class="nav-user-btn" aria-label="User Account" aria-expanded="false" aria-haspopup="true">
+                <span class="user-avatar-badge" id="nav-user-avatar">👤</span>
+                <span class="user-name-label" id="nav-user-name">Candidate</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              <div id="nav-user-dropdown" class="nav-user-dropdown" data-overlay="user-dropdown" role="menu" aria-hidden="true">
+                <div class="user-dropdown-header">
+                  <div class="user-avatar-large" id="dropdown-user-avatar">👤</div>
+                  <div class="user-info-text">
+                    <strong id="dropdown-user-name">Candidate</strong>
+                    <span id="dropdown-user-email">candidate@realm.com</span>
+                  </div>
+                </div>
+                <div class="user-dropdown-divider"></div>
+                <a href="#profile" class="user-dropdown-item" data-route="profile">
+                  <span>👤</span> My Profile
+                </a>
+                <a href="#saved" class="user-dropdown-item" data-route="saved">
+                  <span>⭐</span> Saved Opportunities
+                </a>
+                <a href="#eligibility" class="user-dropdown-item" data-route="eligibility">
+                  <span>🎯</span> My Eligibility Matcher
+                </a>
+                <div class="user-dropdown-divider"></div>
+                <button id="btn-sign-out" class="user-dropdown-item item-signout">
+                  <span>🚪</span> Depart Realm (Sign Out)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="hamburger-toggle-btn" class="hamburger-btn" aria-label="Open navigation menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MOBILE NAVIGATION DRAWER & OVERLAY -->
+    <div id="mobile-drawer-overlay" class="mobile-drawer-overlay" data-overlay="mobile-drawer-backdrop" aria-hidden="true" style="display: none !important; pointer-events: none !important; visibility: hidden !important;"></div>
+    <aside id="mobile-nav-drawer" class="mobile-nav-drawer" data-overlay="mobile-menu" aria-label="Mobile menu" aria-hidden="true" style="display: none !important; pointer-events: none !important; visibility: hidden !important;">
+      <div class="mobile-drawer-header">
+        <div class="brand-link">
+          <div class="brand-icon royal-sigil-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 2L15 5H9L12 2Z" fill="#D4AF37" stroke="#D4AF37" />
+              <path d="M4 8C7 7 10 9 12 12C14 9 17 7 20 8C19 12 16 15 12 21C8 15 5 12 4 8Z" fill="rgba(212, 175, 55, 0.18)" stroke="#D4AF37" />
+              <circle cx="12" cy="7" r="1.5" fill="#D4AF37" />
+            </svg>
+          </div>
+          <span class="brand-name">Career<span>Sphere</span></span>
+        </div>
+        <button id="close-drawer-btn" class="close-drawer-btn" aria-label="Close menu">&times;</button>
+      </div>
+
+      <ul class="mobile-drawer-menu">
+        <li><a href="#home" class="mobile-nav-link active" data-route="home">🏠 Home</a></li>
+        <li><a href="#corporate" class="mobile-nav-link" data-route="corporate">💼 Corporate Jobs</a></li>
+        <li><a href="#internships" class="mobile-nav-link" data-route="internships">🎓 Internships</a></li>
+        <li><a href="#government" class="mobile-nav-link" data-route="government">🏛️ Government Jobs</a></li>
+        <li><a href="#eligibility" class="mobile-nav-link" data-route="eligibility">🎯 My Eligibility</a></li>
+        <li><a href="#resume" class="mobile-nav-link" data-route="resume">📄 Resume</a></li>
+        <li>
+          <a href="#saved" class="mobile-nav-link" data-route="saved">
+            ⭐ Saved Opportunities
+            <span class="saved-badge-counter">2</span>
+          </a>
+        </li>
+        <li><a href="#preparation" class="mobile-nav-link" data-route="preparation">📚 Preparation</a></li>
+        <li>
+          <a href="#notifications" class="mobile-nav-link" data-route="notifications">
+            🔔 Notifications
+            <span class="notification-badge-counter">4</span>
+          </a>
+        </li>
+        <li><a href="#profile" class="mobile-nav-link" data-route="profile">👤 Profile</a></li>
+        <li><a href="#admin" class="mobile-nav-link" data-route="admin">⚙️ Source Health & Admin</a></li>
+      </ul>
+
+      <div class="mobile-drawer-footer">
+        <!-- Guest View in Drawer -->
+        <div id="drawer-guest-card" class="drawer-guest-card">
+          <button id="drawer-btn-auth-open" class="btn btn-primary btn-block">
+            ⚔️ Sign In / Join Realm
+          </button>
+        </div>
+
+        <!-- Authenticated View in Drawer -->
+        <div id="drawer-user-card" class="drawer-profile-card" data-route="profile" style="display: none;">
+          <div class="drawer-avatar" id="drawer-avatar-display">👤</div>
+          <div style="flex: 1; min-width: 0;">
+            <strong id="drawer-user-name" style="font-size: 0.9rem; color: var(--text-dark); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Candidate</strong>
+            <p id="drawer-user-email" style="font-size: 0.75rem; color: var(--text-muted); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">candidate@realm.com</p>
+          </div>
+          <button id="drawer-btn-sign-out" class="drawer-signout-icon-btn" title="Sign Out" aria-label="Sign Out">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN SINGLE-PAGE VIEW INJECTION CONTAINER -->
+    <main id="app-view-container" class="main-content">
+      <!-- Dynamically rendered by app.js router -->
+    </main>
+
+    <!-- GLOBAL SITE FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-grid">
+          <!-- Brand Info -->
+          <div class="footer-brand">
+            <div class="brand-logo-text">Career<span>Sphere</span></div>
+            <div class="brand-tagline">Your Career. Your Opportunities. Your Future.</div>
+            <p>
+              The premier unified career ecosystem for students and freshers across India. Discover verified corporate hiring drives, official Sarkari notifications, paid internships, and preparation modules.
+            </p>
+          </div>
+
+          <!-- Quick Navigation -->
+          <div class="footer-col">
+            <h4>Opportunities</h4>
+            <ul class="footer-links">
+              <li><a href="#corporate" data-route="corporate">Fresher Tech Drives</a></li>
+              <li><a href="#corporate" data-route="corporate">BCA & IT Graduate Roles</a></li>
+              <li><a href="#government" data-route="government">SSC & Banking Exams</a></li>
+              <li><a href="#government" data-route="government">Railway Recruitment</a></li>
+              <li><a href="#internships" data-route="internships">Real Tech Internships</a></li>
+            </ul>
+          </div>
+
+          <!-- Career Resources -->
+          <div class="footer-col">
+            <h4>Prep & Tools</h4>
+            <ul class="footer-links">
+              <li><a href="#eligibility" data-route="eligibility">My Eligibility Matcher</a></li>
+              <li><a href="#preparation" data-route="preparation">Quantitative Aptitude</a></li>
+              <li><a href="#preparation" data-route="preparation">Coding & Data Structures</a></li>
+              <li><a href="#resume" data-route="resume">ATS Resume & Projects</a></li>
+            </ul>
+          </div>
+
+          <!-- Platform Info -->
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <ul class="footer-links">
+              <li><a href="#notifications" data-route="notifications">Notifications & Alerts</a></li>
+              <li><a href="#profile" data-route="profile">Student Profile</a></li>
+              <li><a href="#saved" data-route="saved">Saved Bookmarks</a></li>
+              <li><a href="#" class="trigger-global-search">Universal Search</a></li>
+              <li><a href="#home" data-route="home">Verification Standards</a></li>
+              <li><a href="#admin" data-route="admin">⚙️ Source Health & Admin</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <p>© 2026 CareerSphere. Built for ambitious students and fresh graduates.</p>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="#admin" data-route="admin" class="footer-phase-badge" style="text-decoration:none;">Phase 2: Source Checker Active</a>
+            <span style="color: #64748B; font-size: 0.8rem;">Python Backend & Duplicate Engine Live</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- GLOBAL DETAILS MODAL OVERLAY -->
+    <div id="global-modal-overlay" class="modal-overlay" data-overlay="global-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display: none !important; pointer-events: none !important; visibility: hidden !important;">
+      <div id="global-modal" class="modal-dialog">
+        <div class="modal-header">
+          <h3 id="global-modal-title">Opportunity Details</h3>
+          <button id="close-global-modal-btn" class="close-drawer-btn" aria-label="Close dialog">&times;</button>
+        </div>
+        <div id="global-modal-body" class="modal-body">
+          <!-- Dynamic details content -->
+        </div>
+        <div id="global-modal-footer" class="modal-footer">
+          <!-- Dynamic action buttons -->
+        </div>
+      </div>
+    </div>
+
+    <!-- GLOBAL SEARCH OVERLAY -->
+    <div id="global-search-overlay" class="modal-overlay" data-overlay="global-search" role="dialog" aria-modal="true" aria-hidden="true" style="display: none !important; pointer-events: none !important; visibility: hidden !important;">
+      <div class="search-modal-dialog">
+        <div class="search-modal-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="global-modal-search-input" 
+            placeholder="Search corporate jobs, govt exams, prep tracks or projects..." 
+            autocomplete="off" 
+          />
+          <button id="close-search-overlay-btn" class="close-drawer-btn" aria-label="Close search">&times;</button>
+        </div>
+        <div id="global-search-results" class="search-modal-body">
+          <!-- Populated in real-time by app.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- REALM AUTHENTICATION MODAL -->
+    <div id="auth-modal" class="modal-overlay auth-modal-overlay" data-overlay="modal" aria-hidden="true" style="display: none !important; pointer-events: none !important; visibility: hidden !important;">
+      <div class="modal-dialog auth-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <div class="auth-modal-banner">
+          <div class="realm-sigil-glow">⚔️</div>
+          <h2 id="auth-modal-title" class="auth-modal-title">Enter Career Sphere</h2>
+          <p class="auth-modal-subtitle">Forge Your Career Destiny in the Kingdom of Opportunities</p>
+          <button id="auth-modal-close" class="close-drawer-btn auth-close-btn" aria-label="Close dialog">&times;</button>
+        </div>
+
+        <!-- Auth Tabs -->
+        <div class="auth-tabs-row" role="tablist">
+          <button class="auth-tab-btn active" id="tab-login-btn" role="tab" aria-selected="true" data-tab="login">Enter Realm (Sign In)</button>
+          <button class="auth-tab-btn" id="tab-register-btn" role="tab" aria-selected="false" data-tab="register">Pledge Allegiance (Register)</button>
+        </div>
+
+        <!-- Error / Alert Banner -->
+        <div id="auth-error-banner" class="auth-error-banner" style="display: none;" role="alert">
+          <span class="error-icon">⚠️</span>
+          <span id="auth-error-text">An error occurred.</span>
+        </div>
+
+        <!-- 1. SIGN IN FORM -->
+        <form id="form-login" class="auth-form-body active-form">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Royal Seal (Email Address)</label>
+            <div class="input-with-icon">
+              <span class="input-icon-glyph">✉️</span>
+              <input type="email" id="login-email" class="form-input" placeholder="candidate@realm.com" required autocomplete="username" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="login-password">Secret Password</label>
+            <div class="input-with-icon">
+              <span class="input-icon-glyph">🔒</span>
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password" />
+            </div>
+          </div>
+
+          <div class="auth-form-footer-options">
+            <label class="auth-checkbox-label">
+              <input type="checkbox" id="login-remember" checked />
+              <span>Remember across seasons</span>
+            </label>
+          </div>
+
+          <button type="submit" id="btn-login-submit" class="btn btn-primary btn-block btn-realm-submit">
+            <span>⚔️ Enter the Realm</span>
+          </button>
+        </form>
+
+        <!-- 2. REGISTER FORM -->
+        <form id="form-register" class="auth-form-body" style="display: none;">
+          <div class="form-group">
+            <label class="form-label" for="reg-fullname">Knight / Scholar Name (Full Name)</label>
+            <div class="input-with-icon">
+              <span class="input-icon-glyph">👤</span>
+              <input type="text" id="reg-fullname" class="form-input" placeholder="e.g. Arya Stark" required autocomplete="name" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Royal Seal (Email Address)</label>
+            <div class="input-with-icon">
+              <span class="input-icon-glyph">✉️</span>
+              <input type="email" id="reg-email" class="form-input" placeholder="candidate@realm.com" required autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="reg-qualification">Academic Level</label>
+              <select id="reg-qualification" class="form-select">
+                <option value="Graduate (Bachelor's)">Graduate (Bachelor's Degree)</option>
+                <option value="10th / 12th Pass">10th / 12th Pass</option>
+                <option value="Diploma">Diploma / Polytechnic</option>
+                <option value="Post Graduate (Master's)">Post Graduate (Master's / MCA)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-degree">Degree / Stream</label>
+              <input type="text" id="reg-degree" class="form-input" placeholder="e.g. BCA, B.Tech CSE, B.Sc" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Secret Password (min 8 characters, letters &amp; digits)</label>
+            <div class="input-with-icon">
+              <span class="input-icon-glyph">🔒</span>
+              <input type="password" id="reg-password" class="form-input" placeholder="••••••••" minlength="8" required autocomplete="new-password" />
+            </div>
+          </div>
+
+          <button type="submit" id="btn-register-submit" class="btn btn-primary btn-block btn-realm-submit">
+            <span>🛡️ Pledge Allegiance &amp; Join</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  </div>
+
+  <!-- Main ES6 Modular Application -->
+  <script type="module" src="js/app.js?v=2.0.2"></script>
+</body>
+</html>

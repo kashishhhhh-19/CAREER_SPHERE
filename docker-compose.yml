@@ -1,0 +1,50 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: careersphere-app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      - ENVIRONMENT=production
+      - HOST=0.0.0.0
+      - PORT=8000
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-change-this-in-production-realm-key-2026}
+      - DATABASE_URL=${DATABASE_URL:-}
+      - CORS_ORIGINS=*
+    volumes:
+      - careersphere_data:/app/backend/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Optional production PostgreSQL container (activate with: docker compose --profile with-postgres up)
+  postgres:
+    image: postgres:16-alpine
+    container_name: careersphere-postgres
+    restart: unless-stopped
+    profiles: ["with-postgres"]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-careersphere}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-realmsecret2026}
+      POSTGRES_DB: ${POSTGRES_DB:-careersphere}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-careersphere}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  careersphere_data:
+    driver: local
+  postgres_data:
+    driver: local

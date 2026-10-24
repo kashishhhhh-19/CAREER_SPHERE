@@ -1,0 +1,909 @@
+/**
+ * CareerSphere - Core Design System & Global Styles
+ * Game of Thrones Inspired Dark Royal Fantasy Theme
+ */
+
+:root {
+  /* ==================== THEME COLOR PALETTE (DARK ROYAL FANTASY) ==================== */
+  /* Backgrounds: Deep Obsidian, Charcoal Void, Dark Stone */
+  --bg-main: #0B0C10;           /* Deep Obsidian / Charcoal void background */
+  --bg-secondary: #10121A;      /* Deep Slate / Fortress wall */
+  --surface: #151822;           /* Dark Stone Tablet Surface */
+  --surface-alt: #1A1E2B;       /* Elevated dark stone */
+  --surface-hover: #222738;     /* Hover stone surface */
+  --surface-dark: #0D0F16;      /* Recessed stone */
+
+  /* Legacy Navy mappings -> Dark Obsidian / Slate */
+  --navy-dark: #0D0F17;
+  --navy-surface: #151822;
+  --navy-muted: #1A1E2B;
+
+  /* Royal Metals & Accents */
+  --antique-gold: #D4AF37;      /* Imperial Antique Gold */
+  --gold-hover: #F3E5AB;        /* Radiant Pale Gold */
+  --gold-muted: #997D33;        /* Weathered Gold / Ochre */
+  --gold-light: rgba(212, 175, 55, 0.12);
+  --gold-border: rgba(212, 175, 55, 0.28);
+  --gold-glow: rgba(212, 175, 55, 0.25);
+
+  --muted-bronze: #CD7F32;      /* Warm Bronze Accent */
+  --bronze-border: rgba(205, 127, 50, 0.35);
+
+  --steel-dark: #2D3748;        /* Cold Cast Iron */
+  --steel-metal: #4A5568;       /* Valyrian Steel tone */
+  --steel-light: #718096;       /* Polished Steel */
+
+  --royal-crimson: #8B0000;     /* Deep Dragon Crimson for unread/critical alerts */
+  --crimson-light: rgba(139, 0, 0, 0.2);
+  --crimson-glow: rgba(139, 0, 0, 0.4);
+
+  /* Aliased Primary to Antique Gold */
+  --primary: var(--antique-gold);
+  --primary-hover: var(--gold-hover);
+  --primary-light: var(--gold-light);
+  --primary-dark: #A6841B;
+
+  /* Aliased electric-blue to antique-gold for seamless legacy compatibility */
+  --electric-blue: var(--antique-gold);
+  --electric-blue-hover: var(--gold-hover);
+  --electric-blue-light: var(--gold-light);
+  --electric-blue-muted: rgba(212, 175, 55, 0.2);
+  --electric-blue-border: rgba(212, 175, 55, 0.35);
+  --royal-blue: var(--gold-hover);
+
+  /* Status Accents (Medieval Seals) */
+  --accent-emerald: #10B981;
+  --accent-emerald-dark: #064E3B;
+  --accent-emerald-light: rgba(16, 185, 129, 0.15);
+  --accent-amber: #F59E0B;
+  --accent-amber-dark: #451A03;
+  --accent-amber-light: rgba(245, 158, 11, 0.15);
+  --accent-rose: #EF4444;
+  --accent-rose-light: rgba(239, 68, 68, 0.15);
+  --accent-purple: #8B5CF6;
+  --accent-purple-light: rgba(139, 92, 246, 0.15);
+
+  /* Borders */
+  --border-light: rgba(212, 175, 55, 0.16);
+  --border-focus: var(--antique-gold);
+  --border-subtle: rgba(113, 128, 150, 0.2);
+
+  /* Typography Colors */
+  --text-dark: #F8FAFC;         /* High-contrast crisp off-white for headings */
+  --text-body: #CBD5E1;         /* Silver-gray for body readability */
+  --text-muted: #8492A6;        /* Muted steel-gray */
+  --text-light: #64748B;
+  --text-white: #FFFFFF;
+  --text-gold: #D4AF37;
+
+  /* Shadows (Deep dark stone with subtle gold ambient) */
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.55), 0 0 1px rgba(212, 175, 55, 0.12);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.7), 0 0 8px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 18px rgba(212, 175, 55, 0.2);
+  --shadow-xl: 0 20px 45px rgba(0, 0, 0, 0.95), 0 0 28px rgba(212, 175, 55, 0.25);
+  --shadow-gold: 0 0 22px rgba(212, 175, 55, 0.35);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 9999px;
+
+  /* Layout & Transitions */
+  --max-width: 1280px;
+  --header-height: 72px;
+  --transition-fast: 0.18s ease-in-out;
+  --transition-normal: 0.28s ease-in-out;
+
+  /* Standardized Z-Index Scale (Single source of truth) */
+  --z-base: 1;
+  --z-sticky-nav: 1000;
+  --z-dropdown: 1050;
+  --z-mobile-drawer-overlay: 2000;
+  --z-mobile-drawer: 2050;
+  --z-modal-overlay: 2100;
+  --z-modal-dialog: 2150;
+  --z-toast: 3000;
+
+  /* Regal Typography: Cinzel for Headings, Inter for Body */
+  --font-heading: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-main);
+  color: var(--text-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-x: clip;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-dark);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+}
+
+h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
+h2 { font-size: 2rem; letter-spacing: -0.01em; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: 1rem;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Links & Buttons Global Resets */
+a {
+  color: var(--antique-gold);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--gold-hover);
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Base Form Control Resets */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* General Layout Containers */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+.realm-atmosphere {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: 0;
+  overflow: hidden;
+  background: 
+    radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 85%, rgba(139, 0, 0, 0.025) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 50%, rgba(45, 55, 72, 0.08) 0%, transparent 60%);
+}
+
+.main-content {
+  flex: 1;
+  padding-bottom: 4rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.section-container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-header {
+  margin-bottom: 1.75rem;
+}
+
+.section-header.flex-between {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.section-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 0.02em;
+}
+
+.section-desc {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* ==================== CINEMATIC REALM ATMOSPHERE & FALLING SNOW ==================== */
+.realm-atmosphere {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: 0;
+  background: 
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(30, 36, 50, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 60% at 85% 15%, rgba(212, 175, 55, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(139, 0, 0, 0.04) 0%, transparent 50%),
+    linear-gradient(180deg, #090A0E 0%, #0D1017 40%, #080A0E 100%);
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.realm-atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(4, 5, 8, 0.85) 100%);
+  pointer-events: none !important;
+}
+
+/* Falling Winter Snow Particle Canvas */
+.realm-snow-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none !important;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+/* Warm Hearth & Torch Ember Keyframes */
+@keyframes emberDrift {
+  0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% { transform: translateY(-70px) translateX(12px) scale(0.2); opacity: 0; }
+}
+
+@keyframes torchFlicker {
+  0%, 100% { opacity: 0.9; filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5)); }
+  50% { opacity: 0.75; filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.75)); }
+}
+
+/* ==================== UNIFIED ROYAL REALM VIEW HEADERS ==================== */
+.view-header {
+  background: 
+    linear-gradient(180deg, rgba(14, 17, 24, 0.85) 0%, rgba(10, 12, 17, 0.96) 100%),
+    url('../assets/realm/grand_castle_archive.jpg') center/cover no-repeat;
+  color: var(--text-white);
+  padding: 3.25rem 1.5rem 3.5rem;
+  margin-bottom: 2.25rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--gold-border);
+  box-shadow: inset 0 -25px 35px -15px rgba(0, 0, 0, 0.85);
+}
+
+.view-header::after {
+  content: "";
+  position: absolute;
+  right: -5%;
+  bottom: -40%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.09) 0%, rgba(10, 12, 18, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none !important;
+}
+
+/* Consistent Dark Royal Theme Headers */
+.view-header.corporate-theme-header,
+.view-header.eligibility-theme-header {
+  background: 
+    linear-gradient(180deg, rgba(10, 12, 18, 0.85) 0%, rgba(8, 10, 15, 0.97) 100%),
+    url('../assets/realm/hero_kingdom_dragon.jpg') center 25%/cover no-repeat;
+}
+
+.view-header.govt-theme-header,
+.view-header.intern-theme-header,
+.view-header.prep-theme-header,
+.view-header.notes-theme-header,
+.view-header.resume-theme-header,
+.view-header.projects-theme-header,
+.view-header.saved-theme-header,
+.view-header.notifications-theme-header,
+.view-header.profile-theme-header {
+  background: 
+    linear-gradient(180deg, rgba(14, 17, 24, 0.85) 0%, rgba(10, 12, 17, 0.96) 100%),
+    url('../assets/realm/grand_castle_archive.jpg') center/cover no-repeat;
+}
+
+.view-header-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+  color: #8492A6;
+  margin-bottom: 0.75rem;
+}
+
+.breadcrumb span {
+  color: #8492A6;
+}
+
+.breadcrumb .active {
+  color: var(--antique-gold);
+  font-weight: 600;
+}
+
+.page-title {
+  color: var(--text-dark);
+  font-size: 2.15rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.page-desc {
+  color: var(--text-body);
+  font-size: 1.05rem;
+  max-width: 780px;
+  line-height: 1.55;
+}
+
+/* ==================== CARD BASE COMPONENT ==================== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--antique-gold);
+}
+
+/* Utility Helpers */
+.text-muted { color: var(--text-muted); }
+.text-danger { color: var(--accent-rose); }
+.text-success { color: var(--accent-emerald); }
+.text-primary { color: var(--electric-blue); }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.full-width { width: 100%; grid-column: 1 / -1; }
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: var(--border-light);
+  margin: 1.25rem 0;
+}
+
+.divider-sm {
+  border: 0;
+  height: 1px;
+  background: var(--border-light);
+  margin: 0.75rem 0;
+}
+
+.text-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ==================== FOOTER ==================== */
+.site-footer {
+  background: #080A0E;
+  color: #8492A6;
+  padding: 4rem 1.5rem 2rem;
+  border-top: 1px solid var(--gold-border);
+  box-shadow: inset 0 20px 30px -15px rgba(0, 0, 0, 0.8);
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-brand .brand-logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  font-family: var(--font-heading);
+  letter-spacing: 0.03em;
+}
+
+.footer-brand .brand-logo-text span {
+  color: var(--antique-gold);
+}
+
+.footer-brand .brand-tagline {
+  color: var(--antique-gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.footer-brand p {
+  color: #8492A6;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  max-width: 340px;
+}
+
+.footer-col h4 {
+  color: #F8FAFC;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.25rem;
+  font-family: var(--font-heading);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 0.4rem;
+  display: inline-block;
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+  color: #8492A6;
+  font-size: 0.9rem;
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--antique-gold);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.footer-phase-badge {
+  background: rgba(0, 102, 255, 0.12);
+  color: #60A5FA;
+  border: 1px solid rgba(0, 102, 255, 0.25);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ==================== CINEMATIC OPENING INTRO (DRAGON FLY-THROUGH) ==================== */
+.realm-intro-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background: #06070A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.realm-intro-overlay.intro-fading {
+  opacity: 0;
+  pointer-events: none !important;
+}
+
+.intro-backdrop {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 90% 70% at 50% 35%, rgba(18, 22, 32, 0.9) 0%, #06070A 100%),
+    url('../assets/realm/hero_kingdom_dragon.jpg') center 20%/cover no-repeat;
+  filter: brightness(0.7) contrast(1.1);
+  animation: introBackdropZoom 3.2s ease-out forwards;
+}
+
+@keyframes introBackdropZoom {
+  0% { transform: scale(1.08); filter: brightness(0.3) blur(4px); }
+  40% { filter: brightness(0.65) blur(0px); }
+  100% { transform: scale(1.0); filter: brightness(0.75); }
+}
+
+.intro-fog-layer {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(200, 215, 240, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 60%, rgba(200, 215, 240, 0.09) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(6, 7, 10, 0.4) 0%, transparent 40%, rgba(6, 7, 10, 0.9) 100%);
+  animation: introFogDrift 3.2s linear infinite alternate;
+  pointer-events: none !important;
+}
+
+@keyframes introFogDrift {
+  0% { transform: translateX(-30px); opacity: 0.5; }
+  100% { transform: translateX(30px); opacity: 0.85; }
+}
+
+/* Dragon Silhouette Flying Across Screen */
+.intro-dragon-silhouette {
+  position: absolute;
+  top: 25%;
+  left: -280px;
+  width: 260px;
+  height: 150px;
+  pointer-events: none !important;
+  z-index: 2;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 15px rgba(245, 158, 11, 0.3));
+  animation: dragonFlyAcross 2.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+@keyframes dragonFlyAcross {
+  0% {
+    transform: translate(0, 40px) scale(0.65) rotate(5deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(calc(50vw + 60px), -20px) scale(1.15) rotate(-2deg);
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(calc(100vw + 320px), -70px) scale(0.85) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+/* Wing Flapping Animations */
+.dragon-wing-anim-left {
+  transform-origin: 149px 75px;
+  animation: wingFlap 0.45s ease-in-out infinite alternate;
+}
+
+.dragon-wing-anim-right {
+  transform-origin: 123px 78px;
+  animation: wingFlap 0.45s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes wingFlap {
+  0% { transform: rotate(0deg) scaleY(1); }
+  100% { transform: rotate(-22deg) scaleY(0.75); }
+}
+
+.intro-title-reveal {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 0 1.5rem;
+  animation: introTextReveal 3s ease-out forwards;
+}
+
+@keyframes introTextReveal {
+  0% { opacity: 0; transform: translateY(20px); }
+  35% { opacity: 0.3; }
+  60% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; }
+}
+
+.intro-realm-tag {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--antique-gold);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+.intro-realm-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 0 35px rgba(212, 175, 55, 0.35);
+}
+
+.intro-realm-desc {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: #CBD5E1;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.intro-skip-btn {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  z-index: 10;
+  background: rgba(16, 18, 26, 0.85);
+  border: 1px solid var(--antique-gold);
+  color: var(--antique-gold);
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px rgba(212, 175, 55, 0.2);
+  transition: all var(--transition-fast);
+}
+
+.intro-skip-btn:hover {
+  background: var(--antique-gold);
+  color: #0B0C10;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ==================== CINEMATIC PAGE TRANSITIONS ==================== */
+.realm-transition-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99990;
+  pointer-events: none !important;
+  opacity: 0;
+  display: none;
+}
+
+.realm-transition-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Transition A: ❄️ Snow & Frost Mist Sweep */
+.transition-snow-mist .transition-effect-container {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(90deg, transparent 0%, rgba(180, 205, 235, 0.18) 35%, rgba(220, 235, 255, 0.35) 50%, rgba(180, 205, 235, 0.18) 65%, transparent 100%),
+    radial-gradient(circle at 50% 50%, rgba(10, 14, 22, 0.75) 0%, rgba(6, 8, 12, 0.95) 100%);
+  animation: snowMistSweepAnim 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes snowMistSweepAnim {
+  0% { transform: translateX(-100%); opacity: 0; }
+  40% { opacity: 1; }
+  70% { opacity: 0.9; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+/* Transition B: 🐉 Dragon Shadow Fly-Through */
+.transition-dragon-pass .transition-effect-container {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(8, 10, 15, 0.85) 0%, rgba(5, 6, 9, 0.98) 100%);
+  animation: dragonPassFade 0.7s ease-in-out forwards;
+}
+
+.transition-dragon-pass .transition-effect-container::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: -300px;
+  width: 280px;
+  height: 160px;
+  background: url('../assets/realm/hero_kingdom_dragon.jpg') center/contain no-repeat;
+  filter: brightness(0) invert(0.08) drop-shadow(0 20px 30px rgba(0, 0, 0, 0.9));
+  animation: dragonShadowFly 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+@keyframes dragonPassFade {
+  0% { opacity: 0; }
+  35% { opacity: 0.85; }
+  70% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+@keyframes dragonShadowFly {
+  0% { transform: translateX(0) scale(0.7); opacity: 0; }
+  25% { opacity: 0.9; }
+  100% { transform: translateX(calc(100vw + 400px)) scale(1.1); opacity: 0; }
+}
+
+/* Transition C: 🔥 Dragon Fire Flash */
+.transition-dragon-fire .transition-effect-container {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 45%, rgba(245, 158, 11, 0.45) 0%, rgba(220, 38, 38, 0.35) 40%, rgba(15, 17, 24, 0.9) 75%),
+    linear-gradient(180deg, rgba(245, 158, 11, 0.2) 0%, transparent 60%);
+  animation: dragonFireBurstAnim 0.75s ease-out forwards;
+}
+
+@keyframes dragonFireBurstAnim {
+  0% { opacity: 0; transform: scale(0.95); filter: brightness(0.8); }
+  25% { opacity: 1; transform: scale(1.02); filter: brightness(1.6) drop-shadow(0 0 40px rgba(245, 158, 11, 0.8)); }
+  60% { opacity: 0.85; filter: brightness(1.2); }
+  100% { opacity: 0; transform: scale(1.0); filter: brightness(1.0); }
+}
+
+/* Transition D: 🌫️ Fortress Fog Reveal */
+.transition-fog-reveal .transition-effect-container {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 50% 50%, rgba(25, 30, 42, 0.85) 0%, rgba(8, 10, 15, 0.98) 85%);
+  animation: fortressFogAnim 0.65s ease-in-out forwards;
+}
+
+@keyframes fortressFogAnim {
+  0% { opacity: 0; backdrop-filter: blur(0px); }
+  40% { opacity: 0.95; backdrop-filter: blur(8px); }
+  70% { opacity: 0.8; backdrop-filter: blur(4px); }
+  100% { opacity: 0; backdrop-filter: blur(0px); }
+}
+
+/* Ambient Sky Dragon Gliding across Home Hero */
+.ambient-sky-dragon {
+  position: absolute;
+  top: 18%;
+  left: -120px;
+  width: 90px;
+  height: 50px;
+  opacity: 0.42;
+  pointer-events: none !important;
+  z-index: 1;
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2));
+  animation: ambientDragonGlide 32s ease-in-out infinite;
+}
+
+@keyframes ambientDragonGlide {
+  0% { transform: translateX(0) translateY(0) scale(0.65) rotate(3deg); opacity: 0; }
+  5% { opacity: 0.45; }
+  45% { transform: translateX(calc(50vw)) translateY(-15px) scale(0.85) rotate(-1deg); opacity: 0.55; }
+  90% { opacity: 0.35; }
+  100% { transform: translateX(calc(100vw + 160px)) translateY(-35px) scale(0.7) rotate(-4deg); opacity: 0; }
+}
+
+/* Character Chamber Presence Badges */
+.character-chamber-badge {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: 
+    linear-gradient(135deg, rgba(26, 30, 44, 0.94) 0%, rgba(14, 16, 24, 0.98) 100%),
+    radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 0.85rem 1.25rem;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.6);
+  margin-top: 1.5rem;
+  max-width: 540px;
+  position: relative;
+  overflow: hidden;
+}
+
+.character-chamber-badge::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 12px; height: 12px;
+  border-top: 2px solid var(--antique-gold);
+  border-left: 2px solid var(--antique-gold);
+  border-top-left-radius: 3px;
+  pointer-events: none !important;
+}
+
+.character-chamber-badge::after {
+  content: "";
+  position: absolute;
+  bottom: 0; right: 0; width: 12px; height: 12px;
+  border-bottom: 2px solid var(--antique-gold);
+  border-right: 2px solid var(--antique-gold);
+  border-bottom-right-radius: 3px;
+  pointer-events: none !important;
+}
+
+.character-portrait-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--antique-gold);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+  object-fit: cover;
+  object-position: top;
+  flex-shrink: 0;
+}
+
+.character-badge-text h4 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: #F8FAFC;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.03em;
+}
+
+.character-badge-text p {
+  font-size: 0.825rem;
+  color: var(--text-body);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.character-badge-text span.role-title {
+  color: var(--antique-gold);
+  font-weight: 600;
+  font-size: 0.775rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.25rem;
+}

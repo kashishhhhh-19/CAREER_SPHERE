@@ -13,10 +13,16 @@ import threading
 import hashlib
 from datetime import datetime, timezone
 
-DB_DIR = os.path.join(os.path.dirname(__file__), 'data')
-DB_FILE = os.path.join(DB_DIR, 'careersphere.db')
+from backend.config import DATABASE_URL
 
-_lock = threading.Lock()
+if DATABASE_URL and DATABASE_URL.startswith('sqlite:///'):
+    DB_FILE = os.path.abspath(DATABASE_URL.replace('sqlite:///', '', 1))
+    DB_DIR = os.path.dirname(DB_FILE)
+else:
+    DB_DIR = os.path.join(os.path.dirname(__file__), 'data')
+    DB_FILE = os.path.join(DB_DIR, 'careersphere.db')
+
+_lock = threading.RLock()
 
 def _now_iso():
     return datetime.now(timezone.utc).isoformat()

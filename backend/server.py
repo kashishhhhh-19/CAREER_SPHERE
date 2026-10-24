@@ -453,43 +453,56 @@ app = FastAPI(
 
 # ==================== MIDDLEWARE ====================
 # 1. CORS Middleware
+is_wildcard = CORS_ORIGINS == ['*']
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=CORS_ORIGINS if CORS_ORIGINS != ['*'] else ['*'],
-    allow_credentials=True,
+    allow_origins=CORS_ORIGINS,
+    allow_credentials=not is_wildcard,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 2. Security Headers & Rate-Limiting Middleware
+# 2. Production Security Headers & Rate-Limiting Middleware (Pure ASGI)
 AUTH_ATTEMPTS: Dict[str, List[float]] = {}
 MAX_AUTH_ATTEMPTS_PER_MINUTE = 15
 
-@app.middleware("http")
-async def security_and_rate_limit_middleware(request: Request, call_next):
-    # Basic rate limiting on authentication endpoints
-    path = request.url.path
-    if path.startswith("/api/auth/login") or path.startswith("/api/auth/register"):
-        client_ip = request.client.host if request.client else "unknown"
-        now = time.time()
-        attempts = AUTH_ATTEMPTS.get(client_ip, [])
-        attempts = [t for t in attempts if now - t < 60.0]
-        if len(attempts) >= MAX_AUTH_ATTEMPTS_PER_MINUTE:
-            return JSONResponse(
-                status_code=429,
-                content={"success": False, "error": "Too many authentication requests. Please try again in 1 minute."}
-            )
-        attempts.append(now)
-        AUTH_ATTEMPTS[client_ip] = attempts
+class SecurityAndRateLimitMiddleware:
+    def __init__(self, app_instance):
+        self.app = app_instance
 
-    response = await call_next(request)
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
 
-    # Attach Production Security Headers
-    response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["X-Frame-Options"] = "SAMEORIGIN"
-    response.headers["X-XSS-Protection"] = "1; mode=block"
-    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    return response
+        path = scope.get("path", "")
+        if path.startswith("/api/auth/login") or path.startswith("/api/auth/register"):
+            client_info = scope.get("client")
+            client_ip = client_info[0] if client_info else "unknown"
+            now = time.time()
+            attempts = AUTH_ATTEMPTS.get(client_ip, [])
+            attempts = [t for t in attempts if now - t < 60.0]
+            if len(attempts) >= MAX_AUTH_ATTEMPTS_PER_MINUTE:
+                response = JSONResponse(
+                    status_code=429,
+                    content={"success": False, "error": "Too many authentication requests. Please try again in 1 minute."}
+                )
+                return await response(scope, receive, send)
+            attempts.append(now)
+            AUTH_ATTEMPTS[client_ip] = attempts
+
+        async def send_wrapper(message):
+            if message["type"] == "http.response.start":
+                raw_headers = list(message.get("headers", []))
+                raw_headers.append((b"x-content-type-options", b"nosniff"))
+                raw_headers.append((b"x-frame-options", b"SAMEORIGIN"))
+                raw_headers.append((b"x-xss-protection", b"1; mode=block"))
+                raw_headers.append((b"referrer-policy", b"strict-origin-when-cross-origin"))
+                message["headers"] = raw_headers
+            await send(message)
+
+        await self.app(scope, receive, send_wrapper)
+
+app.add_middleware(SecurityAndRateLimitMiddleware)
 
 # ==================== AUTHENTICATION DEPENDENCY ====================
 async def get_current_user(authorization: Optional[str] = Header(None)) -> Dict[str, Any]:

@@ -7,6 +7,17 @@ CareerSphere is a production-ready, full-stack career platform designed for stud
 
 ---
 
+## 🌐 Live Access & 1-Click Deployment
+
+- **Official Repository**: [https://github.com/kashishhhhh-19/CAREER_SPHERE](https://github.com/kashishhhhh-19/CAREER_SPHERE)
+- **1-Click Free Cloud Deployment**:
+  
+  [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/kashishhhhh-19/CAREER_SPHERE)
+
+  *Clicking the badge automatically provisions a free Render Web Service with automated HTTPS, zero-configuration environment setup via `render.yaml`, and automated continuous deployment on `git push`.*
+
+---
+
 ## 🌟 Key Features & Capabilities
 
 ### 1. ⚔️ Unified Opportunity Feed & Search
